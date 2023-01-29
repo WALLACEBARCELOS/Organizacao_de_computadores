@@ -1,0 +1,141 @@
+.data
+msg1: .asciiz"Informe o PRIMEIRO lado da piscina: "
+msg2: .asciiz"Informe a PRIMEIRA altura da piscina: "
+msg3: .asciiz"Informe o SEGUNDO lado da piscina: "
+msg4: .asciiz"Informe a SEGUNDA altura da piscina: "
+msg5: .asciiz"Informe o TERCEIRO lado da piscina: "
+msg6: .asciiz"Informe a TERCEIRA altura da piscina: "
+msg7: .asciiz"Informe o QUARTO lado da piscina: "
+msg8: .asciiz"Informe a QUARTA altura da piscina: "
+msg9: .asciiz"Informe o QUINTO lado da piscina: "
+msg10: .asciiz"Informe a QUINTA altura da piscina:"
+msg11: .asciiz"Informe o lado do ladrilho: "
+msg12: .asciiz"Informe a altura do ladrilho: "
+msg13: .asciiz"A quantidade de ladrilho que deve ser comprado por metro quadrado e: "
+
+.text
+main:
+
+li $v0,4
+la $a0, msg1
+syscall
+
+li $v0,6
+syscall
+mov.s $f1,$f0
+################################################
+li $v0,4
+la $a0, msg2
+syscall
+
+li $v0,6
+syscall
+mov.s $f2,$f0
+################################################
+li $v0,4
+la $a0, msg3
+syscall
+
+li $v0,6
+syscall
+mov.s $f3,$f0
+################################################
+li $v0,4
+la $a0, msg4
+syscall
+
+li $v0,6
+syscall
+mov.s $f4,$f0
+################################################
+li $v0,4
+la $a0, msg5
+syscall
+
+li $v0,6
+syscall
+mov.s $f5,$f0
+################################################
+li $v0,4
+la $a0, msg6
+syscall
+
+li $v0,6
+syscall
+mov.s $f6,$f0
+################################################
+li $v0,4
+la $a0, msg7
+syscall
+
+li $v0,6
+syscall
+mov.s $f7,$f0
+################################################
+li $v0,4
+la $a0, msg8
+syscall
+
+li $v0,6
+syscall
+mov.s $f8,$f0
+################################################
+li $v0,4
+la $a0, msg9
+syscall
+
+li $v0,6
+syscall
+mov.s $f9,$f0
+################################################
+li $v0,4
+la $a0, msg10
+syscall
+
+li $v0,6
+syscall
+mov.s $f10,$f0
+#multiplicando as areas
+mul.s $f13, $f1,$f2
+mul.s $f14, $f3,$f4
+mul.s $f15, $f5,$f6
+mul.s $f16, $f7,$f8
+mul.s $f17, $f9,$f10
+
+#somando as areas
+add.s $f18, $f13,$f14
+add.s $f19, $f18, $f15
+add.s $f20, $f19, $f16
+add.s $f21, $f20, $f17
+#altura dos ladrilhos
+li $v0,4
+la $a0, msg11
+syscall
+
+li $v0,6
+syscall
+mov.s $f22,$f0
+
+#lado dos ladrilhos
+li $v0,4
+la $a0, msg12
+syscall
+
+li $v0,6
+syscall
+mov.s $f23,$f0
+#Obtendo a area dos ladrilhos
+mul.s $f23, $f22,$f23
+#dividindo a area total pela area do ladrilho para obter a quantidade de ladrilho utilizada
+div.s $f24, $f21,$f23
+
+#imprimindo a quantidade de ladrilho
+li $v0,4
+la $a0, msg13
+syscall
+
+li  $v0,2 
+mov.s $f12,  $f24
+syscall
+
+

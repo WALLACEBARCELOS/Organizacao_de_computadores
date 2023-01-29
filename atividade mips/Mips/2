@@ -1,0 +1,132 @@
+.data
+	msg1: .asciiz "Informe o salario bruto(R$): "
+	msg2: .asciiz "O valor do desconto é de(R$): "
+	msg3: .asciiz "\nSeu salario após o desconto é de(R$): "
+	
+	n1: .float 1659.38
+	n2: .float 2765.66
+	n3: .float 5531.31
+	
+	n4: .float 0.08
+	n5: .float 0.09
+	n6: .float 0.11
+	
+.text
+main:
+	l.s $f2, n1
+	l.s $f3, n2
+	l.s $f4, n3
+	l.s $f5, n4
+	l.s $f6, n5
+	l.s $f7, n6
+	
+
+	#escreva
+	li $v0, 4
+	la $a0, msg1
+	syscall
+	
+	#leia
+	li $v0,6
+	syscall
+	mov.s $f1, $f0
+	
+	#CONDIÇÃO 
+	#DESCONTO DE 0.08
+	c.lt.s $f1, $f2
+	bc1t desconto
+	bc1f senao
+	
+	desconto:
+		mul.s $f15,$f1, $f5
+		sub.s $f16,$f1,$f15
+		#escreva
+		li $v0, 4
+		la $a0, msg2
+		syscall
+		
+		li  $v0,2 
+		mov.s $f12,  $f15
+		syscall
+	
+		li $v0, 4
+		la $a0, msg3
+		syscall
+		
+		li  $v0,2 
+		mov.s $f12,  $f16
+		syscall
+		
+		j fimse
+	fimse:
+		li $v0,10
+		syscall
+	
+	senao:
+	
+	#DESCONTO DE 0.09
+	c.le.s $f1, $f3
+	bc1t desconto1
+	bc1f senao1
+	
+	desconto1:
+		mul.s $f15,$f1, $f6
+		sub.s $f16,$f1,$f15
+		#escreva
+		li $v0, 4
+		la $a0, msg2
+		syscall
+		
+		li  $v0,2 
+		mov.s $f12,  $f15
+		syscall
+	
+		li $v0, 4
+		la $a0, msg3
+		syscall
+		
+		li  $v0,2 
+		mov.s $f12,  $f16
+		syscall
+		
+		j fimse
+	
+	
+	senao1:
+	
+	#DESCONTO DE 0.11
+	c.le.s $f1, $f4
+	bc1t desconto2
+	
+	desconto2:
+		mul.s $f15,$f1, $f7
+		sub.s $f16,$f1,$f15
+		#escreva
+		li $v0, 4
+		la $a0, msg2
+		syscall
+		
+		li  $v0,2 
+		mov.s $f12,  $f15
+		syscall
+	
+		li $v0, 4
+		la $a0, msg3
+		syscall
+		
+		li  $v0,2 
+		mov.s $f12,  $f16
+		syscall
+		
+		j fimse
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	

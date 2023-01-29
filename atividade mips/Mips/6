@@ -1,0 +1,123 @@
+.data
+	msg1: .asciiz "Informe o valor total de venda do usuário: "
+	msg2: .asciiz "A Comissao he: R$"
+	msg3: .asciiz "\nO salario com a comissao he: R$ "
+	msg4: .asciiz "\nDigite [1] para calcular e [2] para cancelar: "
+	
+	n1: .float 1200
+	n2: .float 1500
+	n3: .float 0.1
+	n4: .float 0.2
+	n5: .float 1501
+	
+	
+.text
+
+main:
+	li $t0, 1
+	
+	l.s $f2, n1#1200
+	l.s $f3, n2#1500
+	l.s $f4, n3#0.10
+	l.s $f5, n4#0.20
+	l.s $f6, n5#1501
+	
+
+	
+	while:
+		bgt $t1,$t0,fimse
+		
+		li $v0, 4
+		la $a0, msg4
+		syscall
+	
+		li $v0, 5
+		syscall
+		move $t1,$v0
+	
+		jal loop
+		j while
+	
+	loop:	
+		bgt $t1,$t0,fimse
+		li $v0, 4
+		la $a0, msg1
+		syscall
+	
+		li $v0,6
+		syscall
+		mov.s $f1, $f0
+	
+		c.lt.s $f1, $f3
+		bc1t comissao
+		bc1f senao
+	
+	comissao: 
+		mul.s $f10, $f1, $f4
+		
+		li $v0, 4
+		la $a0, msg2
+		syscall
+		
+		li  $v0,2 
+		mov.s $f12, $f10 
+		syscall
+		
+		add.s $f11, $f10, $f2
+		
+		li $v0, 4
+		la $a0, msg3
+		syscall
+		
+		li  $v0,2 
+		mov.s $f12, $f11
+		syscall
+			
+		jr $ra
+			
+		
+	fimse:
+		li $v0,10
+        	syscall		
+		
+		
+	
+	senao:	
+	
+		c.lt.s $f1, $f6
+		bc1t comissao2
+	
+		comissao2: 
+			mul.s $f10, $f1, $f4
+			sub.s $f14, $f1, $f3
+			mul.s $f13, $f5,$f14
+			add.s $f13, $f10, $f13
+		
+			li $v0, 4
+			la $a0, msg2
+			syscall
+		
+			li  $v0,2 
+			mov.s $f12, $f13
+			syscall
+		
+			add.s $f11, $f2, $f13
+			
+		
+			li $v0, 4
+			la $a0, msg3
+			syscall
+		
+			li  $v0,2 
+			mov.s $f12, $f11
+			syscall
+			
+			jr $ra
+			
+	
+	
+	
+	
+	
+	
+	

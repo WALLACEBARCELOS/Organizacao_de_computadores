@@ -1,0 +1,136 @@
+.data
+	msg1: .asciiz "Digite o salario Bruto: "
+	msg2: .asciiz "FAIXA 1: ISENTO"
+	msg3: .asciiz "FAIXA 2: "
+	msg4: .asciiz "FAIXA 3: "
+	msg5: .asciiz "FAIXA 4: "
+	msg6: .asciiz "FAIXA 5: "
+	
+	n1: .float 1903.98
+	n2: .float 2826.65
+	n3: .float 3751.80
+	n4: .float 4664.68
+	
+	m1: .float 0.075
+	m2: .float 0.15
+	m3: .float 0.225
+	m4: .float 0.275
+	
+	p1: .float 142.80
+	p2: .float 354.80
+	p3: .float 636.13
+	p4: .float 869.36
+	
+	
+.text
+main:
+	l.s $f2, n1 #1903.98
+	l.s $f3, n2 #2826.65
+	l.s $f4, n3 #3751.80
+	l.s $f5, n4 #4664.68
+	
+	l.s $f6, m1 #0.075
+	l.s $f7, m2 #0.15
+	l.s $f8, m3 #0.225
+	l.s $f9, m4 #0.275
+	
+	l.s $f13, p1 #142.80
+	l.s $f14, p2 #354.80
+	l.s $f15, p3 #636.13
+	l.s $f16, p4 #869.36
+	
+
+	li $v0, 4
+	la $a0, msg1
+	syscall
+	
+	
+	li $v0,6
+	syscall
+	mov.s $f1, $f0
+	
+	c.lt.s $f1, $f2
+	bc1t faixa1
+	bc1f senao
+	
+	
+		faixa1:	
+			li $v0, 4
+			la $a0, msg2
+			syscall
+			j fimse
+		
+		fimse:
+			li $v0,10
+			syscall
+	
+		senao:
+			c.le.s $f1, $f3
+			bc1t faixa2
+			bc1f senao1
+		
+		faixa2:
+			mul.s $f10, $f1, $f6
+			sub.s $f10, $f10, $f13
+			
+			li $v0, 4
+			la $a0, msg3
+			syscall
+			li  $v0,2 
+			mov.s $f12, $f10
+			syscall
+			j fimse
+		
+		senao1:
+			c.le.s $f1, $f4
+			bc1t faixa3
+			bc1f senao2
+		
+		faixa3:
+			mul.s $f10, $f1, $f7
+			sub.s $f10, $f10, $f14
+			
+			li $v0, 4
+			la $a0, msg4
+			syscall
+			li  $v0,2 
+			mov.s $f12, $f10
+			syscall
+			j fimse
+	
+		senao2:
+			c.le.s $f1, $f5
+			bc1t faixa5
+			bc1f senao3
+		
+		faixa4:
+			mul.s $f10, $f1, $f8
+			sub.s $f10, $f10, $f15
+			
+			li $v0, 4
+			la $a0, msg5
+			syscall
+			li  $v0,2 
+			mov.s $f12, $f10
+			syscall
+			j fimse
+			
+		senao3:
+			c.lt.s $f1, $f5
+			bc1t faixa3
+		
+		faixa5:
+			mul.s $f10, $f1, $f9
+			sub.s $f10, $f10, $f16
+			
+			li $v0, 4
+			la $a0, msg6
+			syscall
+			li  $v0,2 
+			mov.s $f12, $f10
+			syscall
+			j fimse
+	
+	
+	
+	
